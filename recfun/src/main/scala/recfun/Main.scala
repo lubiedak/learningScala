@@ -17,8 +17,22 @@ object Main {
   
   /**
    * Exercise 2
+   * lubiedak TODO: could be improved, but works fine
+   * unfortunately no recurrsion used
    */
-    def balance(chars: List[Char]): Boolean = ???
+    def balance(chars: List[Char]): Boolean = {
+      var x = 0
+      def ifParenthesisThenBalance(char: Char): Int = {
+        if(char=='(')
+          x=x+1
+        else if(char==')')
+          x=x-1
+        x
+      }
+      val balanceList = chars.map(x=> ifParenthesisThenBalance(x))
+      
+      !balanceList.contains(-1) && balanceList.last == 0
+    }
   
   /**
    * Exercise 3
