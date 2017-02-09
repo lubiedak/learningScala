@@ -13,7 +13,7 @@ object Main {
   /**
    * Exercise 1
    */
-    def pascal(c: Int, r: Int): Int = ???
+    def pascal(c: Int, r: Int): Int = if(r-c==0) 1 else c + pascal(c, r-1)
   
   /**
    * Exercise 2
