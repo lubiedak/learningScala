@@ -23,11 +23,10 @@ object Main {
   def balance(chars: List[Char]): Boolean = {
     var x = 0
     def ifParenthesisThenBalance(char: Char): Int = {
-      if (char == '(')
-        x = x + 1
-      else if (char == ')')
-        x = x - 1
-      x
+      char match {
+      case '(' =>  x=x+1
+      case ')' =>  x=x-1
+      }; x
     }
     val balanceList = chars.map(x => ifParenthesisThenBalance(x))
 
@@ -74,3 +73,17 @@ object Main {
     counter
   }
 }
+ /* 
+  trait A
+  case class B(name: String) extends A
+  case class C(surname: String, name: String, age: Int) extends A
+  
+  def fucntion2(char: A) = {
+    char match {
+      case B(name) => println(name)
+      case C(surname, _, 2) => println(surname)
+      case C(surname, "przemek", _)     => println(surname)
+      case C(surname, _, age) if age > 10 => println(surname)
+      case _ => println(_)
+     }
+ */
