@@ -1,2 +1,7 @@
-recfun/project/project/target
+*/project/project/target
 *.class
+*.cache
+example/target
+*target
+*.settings
+*cache-*
