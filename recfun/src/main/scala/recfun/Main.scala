@@ -26,6 +26,7 @@ object Main {
       char match {
       case '(' =>  x=x+1
       case ')' =>  x=x-1
+      case _ => x
       }; x
     }
     val balanceList = chars.map(x => ifParenthesisThenBalance(x))
@@ -39,12 +40,16 @@ object Main {
    * unfortunately no recurrsion used
    */
   def countChange(money: Int, coins: List[Int]): Int = {
+    if(coins.isEmpty)
+      0
+    
     val sortedCoins = coins.sorted;
     val maxOneCoinsCombinations = sortedCoins.map(x => money / x).filter { x => x > 0 }.toArray
     val usedCoins = sortedCoins.take(maxOneCoinsCombinations.size)
     val proposedChange = maxOneCoinsCombinations.map(x => x - x)
+    
+    
     def nextCombination(): Boolean = {
-
       var i = 0;
       while (i < proposedChange.size) {
         val currentValue = proposedChange(i)
@@ -53,12 +58,8 @@ object Main {
           proposedChange(i) = currentValue + 1
           return !areEqual
         } else {
-          if (areEqual) {
-            return !areEqual
-          } else {
-            proposedChange(i) = 0
-            i += 1
-          }
+          if (areEqual) return !areEqual
+          else proposedChange(i) = 0; i += 1
         }
       }
       true
