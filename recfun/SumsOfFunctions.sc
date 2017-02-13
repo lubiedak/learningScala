@@ -41,4 +41,5 @@ object SumsOfFunctions {
   
   def sumCubes = sum3(x => x*x*x)                 //> sumCubes: => (Int, Int) => Int
   val cubes3 = sumCubes(1,5)                      //> cubes3  : Int = 225
+  val cubes4 = sum3(x=>x*x*x)(1,5)                //> cubes4  : Int = 225
 }
