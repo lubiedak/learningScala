@@ -25,6 +25,20 @@ object SumsOfFunctions {
       else loop(a + 1, f(a) + acc)
     loop(a, 0)
   }                                               //> sum2: (f: Int => Int, a: Int, b: Int)Int
+
+  sum2(x => x * x, 3, 5)                          //> res0: Int = 50
+
+
+
+
+  //Podejscie przekozackie:
+  def sum3(f: Int => Int): (Int, Int) => Int = {
+    def sumF(a: Int, b: Int): Int =
+      if (a > b) 0
+      else f(a) + sumF(a + 1, b)
+    sumF
+  }                                               //> sum3: (f: Int => Int)(Int, Int) => Int
   
-  sum2(x=> x*x, 3,5)                              //> res0: Int = 50
+  def sumCubes = sum3(x => x*x*x)                 //> sumCubes: => (Int, Int) => Int
+  val cubes3 = sumCubes(1,5)                      //> cubes3  : Int = 225
 }
