@@ -57,7 +57,7 @@ object FunSets {
     def forall(s: Set, p: Int => Boolean): Boolean = {
     def iter(a: Int): Boolean = {
       if (a <= bound) contains(s,a)
-      else if (???) ???
+      else if (contains(intersect(s,p),a)) true
       else iter(bound+1)
     }
     iter(-bound)
@@ -67,12 +67,12 @@ object FunSets {
    * Returns whether there exists a bounded integer within `s`
    * that satisfies `p`.
    */
-    def exists(s: Set, p: Int => Boolean): Boolean = ???
+    def exists(s: Set, p: Int => Boolean): Boolean = forall(s,p)
   
   /**
    * Returns a set transformed by applying `f` to each element of `s`.
    */
-    def map(s: Set, f: Int => Int): Set = ???
+    def map(s: Set, f: Int => Int): Set = i => if(contains(s,i)) s(f(i)) else s(i)
   
   /**
    * Displays the contents of a set
