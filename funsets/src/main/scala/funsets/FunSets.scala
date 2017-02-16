@@ -56,8 +56,8 @@ object FunSets {
    */
     def forall(s: Set, p: Int => Boolean): Boolean = {
     def iter(a: Int): Boolean = {
-      if (a <= bound) contains(s,a)
-      else if (contains(intersect(s,p),a)) true
+      if (contains(s,a)) p(a)
+      else if (a >= bound) false //Nie jestem pewien tego else if - czy jest potrzebny?
       else iter(bound+1)
     }
     iter(-bound)
@@ -67,12 +67,13 @@ object FunSets {
    * Returns whether there exists a bounded integer within `s`
    * that satisfies `p`.
    */
-    def exists(s: Set, p: Int => Boolean): Boolean = forall(s,p)
+    def exists(s: Set, p: Int => Boolean): Boolean = forall(s,p) //nie do konca rozumiem jak rekursyjna pętla
+    //może zwracać jednego booleana na całej kolekcji. Jakiś break powinien być?
   
   /**
    * Returns a set transformed by applying `f` to each element of `s`.
    */
-    def map(s: Set, f: Int => Int): Set = i => if(contains(s,i)) s(f(i)) else s(i)
+    def map(s: Set, f: Int => Int): Set = i => if(contains(s,i)) s(f(i)) else s(i) //pewnie forall trzeba wykorzystac
   
   /**
    * Displays the contents of a set
