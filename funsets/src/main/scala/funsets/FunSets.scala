@@ -1,6 +1,5 @@
 package funsets
 
-
 /**
  * 2. Purely Functional Sets.
  */
@@ -19,32 +18,30 @@ object FunSets {
   /**
    * Returns the set of the one given element.
    */
-    def singletonSet(elem: Int): Set = Set(elem)
-  
+  def singletonSet(elem: Int): Set = Set(elem)
 
   /**
    * Returns the union of the two given sets,
    * the sets of all elements that are in either `s` or `t`.
    */
-    def union(s: Set, t: Set): Set = i => s(i) || t(i)
-  
+  def union(s: Set, t: Set): Set = i => s(i) || t(i)
+
   /**
    * Returns the intersection of the two given sets,
    * the set of all elements that are both in `s` and `t`.
    */
-    def intersect(s: Set, t: Set): Set = i => s(i) && t(i)
-  
+  def intersect(s: Set, t: Set): Set = i => s(i) && t(i)
+
   /**
    * Returns the difference of the two given sets,
    * the set of all elements of `s` that are not in `t`.
    */
-    def diff(s: Set, t: Set): Set = i => s(i) && !(s(i) && t(i))
-  
+  def diff(s: Set, t: Set): Set = i => s(i) && !(s(i) && t(i))
+
   /**
    * Returns the subset of `s` for which `p` holds.
    */
-    def filter(s: Set, p: Int => Boolean): Set = intersect(s,p) 
-  
+  def filter(s: Set, p: Int => Boolean): Set = intersect(s, p)
 
   /**
    * The bounds for `forall` and `exists` are +/- 1000.
@@ -54,27 +51,48 @@ object FunSets {
   /**
    * Returns whether all bounded integers within `s` satisfy `p`.
    */
-    def forall(s: Set, p: Int => Boolean): Boolean = {
+  def forall(s: Set, p: Int => Boolean): Boolean = {
     def iter(a: Int): Boolean = {
-      if (contains(s,a)) p(a)
-      else if (a >= bound) false //Nie jestem pewien tego else if - czy jest potrzebny?
-      else iter(bound+1)
+      if (contains(s, a) && p(a))
+        iter(a + 1)
+      else if (contains(s, a) && !p(a))
+        false
+      else if (a > bound)
+        true
+      else
+        iter(a + 1)
     }
     iter(-bound)
   }
-  
+
   /**
    * Returns whether there exists a bounded integer within `s`
    * that satisfies `p`.
    */
-    def exists(s: Set, p: Int => Boolean): Boolean = forall(s,p) //nie do konca rozumiem jak rekursyjna pętla
-    //może zwracać jednego booleana na całej kolekcji. Jakiś break powinien być?
-  
+  def exists(s: Set, p: Int => Boolean): Boolean = {
+    val unused = forall(s,p)
+    //maybe someday I will figure out how to use forall to get exists function working
+    def iter(a: Int): Boolean = {
+      if (contains(s, a) && p(a))
+        true
+      else if (a > bound)
+        false
+      else
+        iter(a + 1)
+    }
+    iter(-bound)
+  }
   /**
    * Returns a set transformed by applying `f` to each element of `s`.
    */
-    def map(s: Set, f: Int => Int): Set = i => if(contains(s,i)) s(f(i)) else s(i) //pewnie forall trzeba wykorzystac
-  
+  def map(s: Set, f: Int => Int): Set = {
+    def iter(a: Int, newSet: Set): Set = {
+      if (contains(s,a)) iter(bound+1, union(newSet, Set(f(a))))
+      else if (a > bound) newSet 
+      else iter(bound+1, newSet)
+    }
+    iter(-bound, Set())
+  }
   /**
    * Displays the contents of a set
    */

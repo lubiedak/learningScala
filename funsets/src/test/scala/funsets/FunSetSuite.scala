@@ -76,7 +76,7 @@ class FunSetSuite extends FunSuite {
   trait TestSets {
     val s1 = singletonSet(1)
     val s2 = singletonSet(2)
-    val s3 = singletonSet(3)
+    val s3 = singletonSet(1000)
   }
 
   /**
@@ -112,10 +112,10 @@ class FunSetSuite extends FunSuite {
   //prepare better test cases here
   test("map exist and forall") {
     new TestSets {
-      val s = union(s1, s2)
-      assert(contains(s, 1), "Union 1")
-      assert(contains(s, 2), "Union 2")
-      assert(!contains(s, 3), "Union 3")
+      val s12 = union(s1, s2)
+      val s123 = union(s12, s3)
+      assert(forall(s123, i => i<5 ), "Union 1")
+
     }
   }
 
